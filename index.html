@@ -1,61 +1,178 @@
-<script>
-    // इन 3 चाबियों को मैंने बदल दिया है, इन्हें ट्राई करें
-    const KEYS = [
-        '66b93bbc5730f7a268d8893172a33427', 
-        '7f4aef5f09b96121682b41d0502f8746', 
-        '902f6f663016116846a9edf1108e504d'
-    ];
-    let img = "";
-
-    async function up(input) {
-        const f = input.files; 
-        const s = document.getElementById('st');
-        
-        if(!f) return;
-        
-        // फाइल साइज़ चेक (5MB से कम होनी चाहिए)
-        if(f.size > 5242880) {
-            alert("फोटो बहुत बड़ी है! कृपया 5MB से छोटी फोटो चुनें।");
-            return;
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASHOO PAY SERVICE | INDIA #1</title>
+    <style>
+        :root {
+            --primary: #6a1b9a;
+            --secondary: #ff5722;
+            --dark: #121212;
+            --grad: linear-gradient(135deg, #4a148c 0%, #ad1457 50%, #f44336 100%);
         }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--grad); min-height: 100vh; margin: 0; color: #333; }
+        .header { background: rgba(0,0,0,0.5); color: white; padding: 25px; text-align: center; font-weight: 800; font-size: 24px; text-transform: uppercase; border-bottom: 3px solid var(--secondary); }
+        .container { background: white; margin: 25px 15px; padding: 30px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: none; animation: slideUp 0.4s; }
+        .active { display: block; }
+        @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        .btn-3d { 
+            background: var(--secondary); color: white; border: none; width: 100%; padding: 18px; font-weight: bold; border-radius: 10px; font-size: 18px; cursor: pointer;
+            box-shadow: 0 6px #bf360c; transition: 0.1s; text-transform: uppercase; margin-top: 15px;
+        }
+        .btn-3d:active { box-shadow: 0 2px #bf360c; transform: translateY(4px); }
+        .btn-3d:disabled { background: #ccc; box-shadow: 0 6px #999; cursor: not-allowed; }
+        .btn-back { background: #444; box-shadow: 0 6px #222; margin-top: 15px; }
+        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 20px; border: 2px solid #eee; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
+        .star { color: red; font-weight: bold; }
+        .footer { background: var(--dark); color: #777; padding: 50px 20px; font-size: 14px; margin-top: 60px; text-align: center; border-top: 5px solid var(--secondary); }
+        #loader { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:999; flex-direction:column; align-items:center; justify-content:center; color:white; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--secondary); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
 
-        s.innerText = "⏳ CASHOO Server पर अपलोड हो रहा है...";
-        s.style.color = "orange";
+    <div id="loader"><div class="spinner"></div><p>Publishing on CASHOO...</p></div>
+    <div class="header">CASHOO PAY SERVICE</div>
 
-        let uploadSuccess = false;
+    <div class="container active" id="step1">
+        <h2>1. CATEGORY & LOCATION <span class="star">*</span></h2>
+        <label>Select Category</label>
+        <select id="cat">
+            <option value="Male Escort">Male Escort</option>
+            <option value="Call Girl">Call Girl</option>
+            <option value="Massage Girl">Massage Girl</option>
+            <option value="Massage Boy">Massage Boy</option>
+        </select>
+        
+        <label>Select City (All India)</label>
+        <select id="city">
+            <option value="">-- Choose City --</option>
+            <optgroup label="Top Metros">
+                <option>Delhi / NCR</option><option>Mumbai</option><option>Bangalore</option><option>Hyderabad</option><option>Pune</option><option>Chennai</option><option>Kolkata</option>
+            </optgroup>
+            <optgroup label="North India">
+                <option>Mathura</option><option>Agra</option><option>Lucknow</option><option>Jaipur</option><option>Chandigarh</option><option>Ludhiana</option><option>Amritsar</option><option>Dehradun</option><option>Gurgaon</option><option>Noida</option><option>Kanpur</option><option>Varanasi</option>
+            </optgroup>
+            <optgroup label="West & Central">
+                <option>Ahmedabad</option><option>Surat</option><option>Indore</option><option>Bhopal</option><option>Nagpur</option><option>Goa</option><option>Udaipur</option>
+            </optgroup>
+            <optgroup label="East & South">
+                <option>Patna</option><option>Ranchi</option><option>Guwahati</option><option>Bhubaneswar</option><option>Kochi</option><option>Mysore</option><option>Vizag</option>
+            </optgroup>
+        </select>
 
-        for(let k of KEYS) {
-            if(uploadSuccess) break;
+        <label>Enter Area / District / City</label>
+        <input type="text" id="dist" placeholder="e.g. Rohini, Gomti Nagar, Civil Lines" required>
+        
+        <button class="btn-3d" id="btn1" onclick="validateStep1()">NEXT STEP</button>
+    </div>
 
-            let fd = new FormData();
-            fd.append('image', f);
+    <div class="container" id="step2">
+        <h2>2. AD DETAILS <span class="star">*</span></h2>
+        <label>Ad Title</label>
+        <input type="text" id="title" placeholder="Eye-catching Title">
+        <label>Ad Text</label>
+        <textarea id="text" rows="4" placeholder="Describe your service..."></textarea>
+        <div style="border:2px dashed #6a1b9a; padding:25px; text-align:center; cursor:pointer; background:#fdfaff; border-radius:12px;" onclick="document.getElementById('f-in').click()">
+            <span id="st">📸 Click to Add Real Photo</span>
+            <input type="file" id="f-in" style="display:none" accept="image/*" onchange="up(this)">
+        </div><br>
+        <button class="btn-3d" id="btn2" onclick="go(3)" disabled>NEXT: CONTACT</button>
+        <button class="btn-3d btn-back" onclick="go(1)">BACK</button>
+    </div>
 
-            try {
-                let r = await fetch(`https://api.imgbb.com/1/upload?key=${k}`, {
-                    method: 'POST',
-                    body: fd
-                });
-                
-                let j = await r.json();
+    <div class="container" id="step3">
+        <h2>3. CONTACT INFO <span class="star">*</span></h2>
+        <label>Phone Number</label>
+        <input type="text" id="ph" placeholder="+91">
+        <div style="background:#f4f4f4; padding:20px; border-radius:10px; font-size:14px;">
+            <input type="checkbox" id="p1"> I agree to <b>CASHOO PAY Terms</b> <span class="star">*</span><br><br>
+            <input type="checkbox" id="p2"> I authorize <b>Personal Data</b> use <span class="star">*</span>
+        </div><br>
+        <button class="btn-3d" id="btn3" onclick="go(4)" disabled>GO ON (PREVIEW)</button>
+        <button class="btn-3d btn-back" onclick="go(2)">BACK</button>
+    </div>
 
-                if(j.success) {
-                    img = j.data.url;
-                    s.innerText = "✅ फोटो सुरक्षित अपलोड हो गई!";
-                    s.style.color = "green";
-                    document.getElementById('btn2').disabled = false;
-                    uploadSuccess = true;
-                } else {
-                    console.log("Key failed, trying next...");
-                }
-            } catch(e) {
-                console.error("Network Error:", e);
+    <div class="container" id="step4">
+        <h2>4. FINAL PREVIEW</h2>
+        <div style="border:1px solid #ddd; border-radius:12px; overflow:hidden;">
+            <img id="p-img" style="width:100%">
+            <div style="padding:15px">
+                <h3 id="p-title" style="margin:0"></h3>
+                <p id="p-loc" style="color:var(--secondary); font-weight:bold"></p>
+                <p id="p-desc" style="color:#555"></p>
+            </div>
+        </div><br>
+        <button class="btn-3d" style="background:#2ecc71; box-shadow:0 6px #27ae60" onclick="pub()">🚀 PUBLISH AD FREE</button>
+        <button class="btn-3d btn-back" onclick="go(3)">EDIT</button>
+    </div>
+
+    <div class="footer">
+        <div class="restricted">RESTRICTED TO ADULTS</div>
+        <p>CASHOO PAY SERVICE - SOFYAN LIMITED, Cyprus | HE 445193</p>
+    </div>
+
+    <script>
+        const SURL = 'https://script.google.com/macros/s/AKfycbwDLNhMit5MXHi6dWLS82_avlS4UWBGGeO3QzhGcEVNwF-t0WM0LTona4G6Xt8gjiZnSw/exec';
+        const KEYS = ['66b93bbc5730f7a268d8893172a33427', '7f4aef5f09b96121682b41d0502f8746', '902f6f663016116846a9edf1108e504d'];
+        let img = "";
+
+        function validateStep1() {
+            if(document.getElementById('city').value === "" || document.getElementById('dist').value === "") {
+                alert("Please select city and enter area!");
+                return;
             }
+            go(2);
         }
 
-        if(!uploadSuccess) {
-            s.innerText = "❌ अपलोड फेल! दूसरी फोटो ट्राई करें।";
-            s.style.color = "red";
-            alert("सर्वर में समस्या है, कृपया दूसरी फोटो चुनें या बाद में ट्राई करें।");
+        function go(s) {
+            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+            document.getElementById('step' + s).classList.add('active');
+            if(s === 4) {
+                document.getElementById('p-img').src = img;
+                document.getElementById('p-title').innerText = document.getElementById('title').value;
+                document.getElementById('p-loc').innerText = "📍 " + document.getElementById('city').value + " (" + document.getElementById('dist').value + ")";
+                document.getElementById('p-desc').innerText = document.getElementById('text').value;
+            }
+            window.scrollTo(0,0);
         }
-    }
-</script>
+
+        async function up(input) {
+            const f = input.files; const s = document.getElementById('st');
+            if(!f) return; s.innerText = "⏳ Uploading Photo...";
+            for(let k of KEYS) {
+                let fd = new FormData(); fd.append('image', f);
+                try {
+                    let r = await fetch(`https://api.imgbb.com/1/upload?key=${k}`, {method:'POST', body:fd});
+                    let j = await r.json();
+                    if(j.success) { img = j.data.url; s.innerText = "✅ Uploaded!"; document.getElementById('btn2').disabled = false; return; }
+                } catch(e) {}
+            }
+            s.innerText = "❌ Upload Failed!";
+        }
+
+        setInterval(() => {
+            const ok3 = document.getElementById('ph').value && document.getElementById('p1').checked && document.getElementById('p2').checked;
+            document.getElementById('btn3').disabled = !ok3;
+        }, 500);
+
+        async function pub() {
+            document.getElementById('loader').style.display='flex';
+            const d = { 
+                name: document.getElementById('title').value, 
+                city: document.getElementById('city').value, 
+                phone: document.getElementById('ph').value, 
+                photoUrl: img, 
+                category: document.getElementById('cat').value, 
+                desc: document.getElementById('text').value,
+                area: document.getElementById('dist').value 
+            };
+            await fetch(SURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
+            alert("Success! Your Ad is Live on CASHOO PAY SERVICE.");
+            location.reload();
+        }
+    </script>
+</body>
+</html>
