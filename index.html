@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASHOO PAY SERVICE</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; text-align: center; background-color: #eef2f3; padding: 15px; margin: 0; }
+        .container { max-width: 500px; margin: 10px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #333; margin-top: 0; border-bottom: 3px solid #0088cc; padding-bottom: 10px; font-weight: bold; }
+        p.info { color: #666; font-size: 14px; margin-bottom: 5px; }
+        select { width: 100%; padding: 14px; margin: 15px 0; border-radius: 10px; border: 2px solid #0088cc; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .profile-card { border: 1px solid #ddd; padding: 15px; border-radius: 15px; margin-top: 20px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: 0.3s; }
+        img { width: 100%; border-radius: 12px; height: auto; display: block; margin-bottom: 12px; object-fit: cover; max-height: 400px; }
+        .title { font-size: 20px; color: #333; font-weight: bold; margin: 10px 0; }
+        .price { font-size: 24px; color: #2ecc71; font-weight: bold; margin: 10px 0; }
+        .btn-telegram { display: block; padding: 12px; background-color: #0088cc; color: white !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: 0.3s; }
+        .btn-telegram:hover { background-color: #006699; transform: translateY(-2px); }
+        .ads-box { margin-bottom: 20px; min-height: 60px; border-radius: 8px; overflow: hidden; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="ads-box">
+        <script type="text/javascript">
+            atOptions = { 'key' : 'af0c8f436074a1ddc5d523ea4bcdd0a4', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/af0c8f436074a1ddc5d523ea4bcdd0a4/invoke.js"></script>
+    </div>
+
+    <h2>CASHOO PAY SERVICE</h2>
+    <p class="info">अपना शहर चुनें और बेस्ट सर्विस देखें:</p>
+
+    <select id="citySelect" onchange="filterData()">
+        <option value="">-- यहाँ क्लिक करें (Select City) --</option>
+        <option value="MATHURA">MATHURA (मथुरा)</option>
+    </select>
+
+    <div id="results"></div>
+
+    <div style="margin-top:30px;">
+        <script async="async" data-cfasync="false" src="https://pl28735283.effectivegatecpm.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
+        <div id="container-745c1ef3a6af871203febf2e53f94208"></div>
+    </div>
+</div>
+
+<script>
+    // आपकी Google Sheet का पूरा डेटा यहाँ डाल दिया है
+    const allData = [
+        {
+            city: "MATHURA",
+            title: "Cashoo Service Mathura 1",
+            imageurl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjlI6n3S9z...", // आपकी शीट की पहली फोटो
+            price: "500",
+            telegramlink: "https://t.me/CASH_OO" // आपकी शीट का टेलीग्राम
+        },
+        {
+            city: "MATHURA",
+            title: "Cashoo Service Mathura 2",
+            imageurl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEisO-vO...", // आपकी शीट की दूसरी फोटो
+            price: "1000",
+            telegramlink: "https://t.me/CASH_OO"
+        }
+    ];
+
+    function filterData() {
+        const selectedCity = document.getElementById('citySelect').value;
+        const resultsDiv = document.getElementById('results');
+        
+        if (!selectedCity) {
+            resultsDiv.innerHTML = '';
+            return;
+        }
+
+        resultsDiv.innerHTML = '<p style="color:#0088cc; font-weight:bold;">प्रोफाइल लोड हो रही है...</p>';
+
+        setTimeout(() => {
+            resultsDiv.innerHTML = '';
+            const filtered = allData.filter(item => item.city.toUpperCase() === selectedCity.toUpperCase());
+
+            if (filtered.length === 0) {
+                resultsDiv.innerHTML = '<p style="padding:20px; color:red;">क्षमा करें, इस शहर में कोई प्रोफाइल नहीं मिली।</p>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                resultsDiv.innerHTML += `
+                    <div class="profile-card">
+                        <div class="title">${item.title}</div>
+                        <img src="${item.imageurl}" alt="Service Image">
+                        <div class="price">Price: ₹${item.price}</div>
+                        <a href="${item.telegramlink}" target="_blank" class="btn-telegram">Chat on Telegram</a>
+                    </div>
+                `;
+            });
+        }, 600);
+    }
+</script>
+
+</body>
+</html>
