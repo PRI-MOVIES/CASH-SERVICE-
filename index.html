@@ -11,6 +11,15 @@
 :root { --watcho-orange: #ff4f00; --bg-dark: #07080a; }
 body { background-color: var(--bg-dark); color: white; font-family: 'Inter', sans-serif; scroll-behavior: smooth; margin: 0; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* स्मार्ट एड हाइडर (लोड होगा पर दिखेगा नहीं) */
+.hidden-ad-box { width: 1px; height: 1px; opacity: 0.01; overflow: hidden; position: absolute; top: -100px; }
+
+/* 3D पोस्टर स्लाइडर एनीमेशन */
+.poster-3d { transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease; }
+.poster-active { transform: scale(1) translateZ(0); opacity: 1; position: relative; z-index: 10; }
+.poster-hidden { transform: scale(0.8) translateZ(-100px); opacity: 0; position: absolute; z-index: 0; }
+
 .movie-card { transition: all 0.3s ease; flex-shrink: 0; cursor: pointer; border-radius: 8px; overflow: hidden; position: relative; }
 .movie-card:hover { transform: translateY(-10px) scale(1.05); border: 2px solid var(--watcho-orange); }
 .hero-gradient { background: linear-gradient(to top, var(--bg-dark) 10%, transparent 100%); }
@@ -19,25 +28,22 @@ body { background-color: var(--bg-dark); color: white; font-family: 'Inter', san
 .server-btn:hover, .server-btn.active { background: var(--watcho-orange); }
 .gold-review { position: absolute; top: 5px; right: 5px; background: linear-gradient(45deg, #ffd700, #ff8c00); color: black; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 900; box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
 
-.top-ad-container { max-width: 728px; max-height: 90px; margin: 10px auto; overflow: hidden; display: flex; justify-content: center; }
-
 @media (max-width: 768px) {
-    .top-ad-container { max-width: 100%; max-height: 250px; }
     nav { padding: 10px 15px !important; flex-wrap: wrap; height: auto !important; }
     nav h1 { text-align: center; width: 100%; margin-bottom: 10px; font-size: 1.5rem !important; }
-    nav .flex.items-center.space-x-4 { width: 100%; justify-content: space-between; }
     #search { width: 100% !important; margin-top: 10px; }
     .fixed.top-\[72px\] { top: 130px !important; padding: 10px !important; }
-    #hero { h-height: 60vh !important; margin-top: 150px !important; }
-    #hero h2 { font-size: 2.5rem !important; }
-    .px-10 { padding-left: 15px !important; padding-right: 15px !important; }
-    #popularGrid { grid-template-cols: 3 !important; gap: 10px !important; }
+    #hero-slider { margin-top: 150px !important; height: 450px !important; }
 }
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
-.modal-content { background: #111; border: 1px solid #333; padding: 30px; border-radius: 12px; max-width: 600px; width: 100%; position: relative; }
 </style>
 </head>
 <body>
+
+<div class="hidden-ad-box">
+    <div id="container-745c1ef3a6af871203febf2e53f94208"></div>
+    <script async="async" data-cfasync="false" src="https://www.highperformanceformat.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
+</div>
+
 <nav class="fixed top-0 w-full z- flex items-center justify-between px-8 py-4 bg-black/60 backdrop-blur-md">
 <div class="flex items-center space-x-10">
 <h1 class="text-3xl font-black text-[#ff4f00]">ZZZ-PROMOVIES</h1>
@@ -48,10 +54,6 @@ body { background-color: var(--bg-dark); color: white; font-family: 'Inter', san
 </div>
 </div>
 <div class="flex items-center space-x-4">
-<div class="hidden sm:block text-right">
-<div class="text-[10px] text-gray-400 uppercase font-bold">Live Watching</div>
-<div class="text-[#ff4f00] font-black text-sm animate-pulse" id="liveCounter">45,230</div>
-</div>
 <input type="text" id="search" placeholder="Search..." class="bg-gray-900 border border-gray-700 rounded-full px-5 py-2 text-sm w-72 outline-none focus:border-[#ff4f00]">
 </div>
 </nav>
@@ -60,29 +62,17 @@ body { background-color: var(--bg-dark); color: white; font-family: 'Inter', san
 <button onclick="filterBy('hi', this)" class="server-btn active whitespace-nowrap">Hindi</button>
 <button onclick="filterBy('en', this)" class="server-btn whitespace-nowrap">English</button>
 <button onclick="filterBy('pa', this)" class="server-btn whitespace-nowrap">Punjabi</button>
-<button onclick="filterBy('te', this)" class="server-btn whitespace-nowrap">South (Telugu)</button>
-<button onclick="filterBy('ta', this)" class="server-btn whitespace-nowrap">South (Tamil)</button>
+<button onclick="filterBy('te', this)" class="server-btn whitespace-nowrap">South</button>
 <button onclick="filterBy('movie', this)" class="server-btn whitespace-nowrap">All Movies</button>
-<button onclick="showModal('about')" class="server-btn whitespace-nowrap border border-gray-600">About</button>
-<button onclick="showModal('contact')" class="server-btn whitespace-nowrap border border-gray-600">Contact</button>
 </div>
 
-<div id="hero" class="relative h-[90vh] w-full bg-cover bg-top flex items-center mt-10">
-<div class="absolute inset-0 hero-gradient"></div>
-<div class="relative px-12 z-10 space-y-5 max-w-3xl">
-<span class="bg-[#ff4f00] px-3 py-1 rounded text-xs font-bold">DIGITAL PREMIER</span>
-<h2 id="heroTitle" class="text-6xl font-black leading-none">Loading...</h2>
-<p id="heroDesc" class="text-gray-400 text-lg line-clamp-3 italic"></p>
-<button onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('hero')" class="bg-[#ff4f00] text-white px-12 py-4 rounded-md font-bold text-xl hover:scale-105 transition shadow-2xl">WATCH NOW</button>
-</div>
+<div id="hero-slider" class="relative w-full h-[600px] mt-20 overflow-hidden flex items-center justify-center bg-black">
+    <div id="slider-content" class="relative w-[90%] md:w-[80%] h-full flex items-center justify-center">
+        <div class="text-white animate-pulse">Loading Superhits...</div>
+    </div>
 </div>
 
-<div class="px-10 -mt-20 relative z-20 pb-20 space-y-10">
-<div class="top-ad-container">
-    <div id="container-745c1ef3a6af871203febf2e53f94208"></div>
-    <script async="async" data-cfasync="false" src="https://www.highperformanceformat.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
-</div>
-
+<div class="px-10 relative z-20 pb-20 space-y-10">
 <section>
 <h3 class="text-2xl font-bold mb-4 flex items-center" id="sectionTitle"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Trending Highlights</h3>
 <div id="trendingSlider" class="flex space-x-5 overflow-x-auto no-scrollbar py-4"></div>
@@ -92,30 +82,15 @@ body { background-color: var(--bg-dark); color: white; font-family: 'Inter', san
 <h3 class="text-2xl font-bold mb-4 flex items-center"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Popular Digital Hits</h3>
 <div id="popularGrid" class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-6"></div>
 <div class="flex justify-center mt-12">
-<button id="loadMore" onclick="window.open('https://omg10.com/4/10645051', '_blank'); loadMoreMovies()" class="bg-gray-800 hover:bg-[#ff4f00] text-white px-10 py-3 rounded-full font-bold transition border border-gray-700">LOAD MORE</button>
+<button id="loadMore" onclick="loadMoreMovies()" class="bg-gray-800 hover:bg-[#ff4f00] text-white px-10 py-3 rounded-full font-bold transition">LOAD MORE</button>
 </div>
 </section>
 </div>
 
-<div id="customModal" class="modal-overlay" onclick="closeModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <button onclick="closeModal()" class="absolute top-4 right-4 text-2xl text-gray-500 hover:text-white">&times;</button>
-        <div id="modalBody"></div>
-    </div>
-</div>
-
 <div id="playerOverlay">
-<div class="absolute top-0 left-0 w-full p-5 flex flex-wrap justify-between items-center bg-black/80 z-">
-<div id="serverList" class="flex space-x-3 overflow-x-auto no-scrollbar">
-<span class="text-sm font-bold self-center mr-2">SERVERS:</span>
-<button class="server-btn active" onclick="switchServer(1)">1</button>
-<button class="server-btn" onclick="switchServer(2)">2</button>
-<button class="server-btn" onclick="switchServer(3)">3</button>
-<button class="server-btn" onclick="switchServer(4)">4</button>
-<button class="server-btn" onclick="switchServer(5)">5</button>
-<button class="server-btn" onclick="switchServer(6)">6</button>
-</div>
-<button onclick="closePlayer()" class="text-white text-xl font-bold hover:text-red-500 transition">&times; CLOSE</button>
+<div class="absolute top-0 left-0 w-full p-5 flex justify-between items-center bg-black/80 z-">
+<div id="serverList" class="flex space-x-3"><button class="server-btn active">Server 1</button></div>
+<button onclick="closePlayer()" class="text-white text-xl font-bold">&times; CLOSE</button>
 </div>
 <iframe id="mainIframe" src="" class="w-full h-full pt-16" frameborder="0" allowfullscreen></iframe>
 </div>
@@ -123,88 +98,60 @@ body { background-color: var(--bg-dark); color: white; font-family: 'Inter', san
 <script>
 const API_KEY = '174d0214bf933dd59b3d5ec68a0c967f';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
-let currentTmdbId = '';
-let currentPage = 1;
-const servers = ["https://vidsrc.to/embed/movie/","https://vidsrc.me/embed/movie?tmdb=","https://embed.su/embed/movie/","https://multiembed.mov/?video_id=","https://autoembed.to/movie/tmdb/","https://player.smashy.stream/movie/"];
+let currentSlide = 0;
+let sliderMovies = [];
 
-setInterval(() => {
-  const val = Math.floor(Math.random() * (80000 - 20000 + 1)) + 20000;
-  document.getElementById('liveCounter').innerText = val.toLocaleString();
-}, 3000);
-
-function showModal(type) {
-    const body = document.getElementById('modalBody');
-    body.innerHTML = type === 'about' ? `<h2 class="text-2xl font-bold text-[#ff4f00] mb-4">About Us</h2><p class="text-gray-300">Disclaimer: We do not host any files.</p>` : `<h2 class="text-2xl font-bold text-[#ff4f00] mb-4">Contact</h2><a href="mailto:HELP.WOWMOVIES@GMAIL.COM" class="text-white underline">HELP.WOWMOVIES@GMAIL.COM</a>`;
-    document.getElementById('customModal').style.display = 'flex';
+async function fetchContent() {
+  const res = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=hi-IN&page=1`);
+  const data = await res.json();
+  sliderMovies = data.results.slice(0, 5);
+  renderSlider();
+  
+  const trending = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`);
+  const tData = await trending.json();
+  document.getElementById('trendingSlider').innerHTML = tData.results.map(m => createItem(m, 'w-[150px] md:w-[210px]')).join('');
+  
+  const popular = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`);
+  const pData = await popular.json();
+  document.getElementById('popularGrid').innerHTML = pData.results.map(m => createItem(m, 'w-full')).join('');
 }
-function closeModal() { document.getElementById('customModal').style.display = 'none'; }
 
-async function fetchContent(page = 1) {
-  try {
-    const res = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}&page=${page}`);
-    const data = await res.json();
-    const items = data.results;
-    if(page === 1) {
-      document.getElementById('hero').style.backgroundImage = `url('${IMG_URL + items.backdrop_path}')`;
-      document.getElementById('heroTitle').innerText = items.title;
-      document.getElementById('heroDesc').innerText = items.overview;
-      document.getElementById('hero').setAttribute('data-id', items.id);
-      document.getElementById('trendingSlider').innerHTML = items.map(m => createItem(m, 'w-[150px] md:w-[210px]')).join('');
-    }
-    const popular = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`);
-    const popData = await popular.json();
-    document.getElementById('popularGrid').innerHTML += popData.results.map(m => createItem(m, 'w-full')).join('');
-  } catch (e) { console.log("Sync Error"); }
+function renderSlider() {
+    const container = document.getElementById('slider-content');
+    container.innerHTML = sliderMovies.map((m, i) => `
+        <div class="poster-3d ${i === 0 ? 'poster-active' : 'poster-hidden'} absolute inset-0 rounded-2xl shadow-2xl cursor-pointer" 
+             onclick="playMovie('${m.id}')" id="slide-${i}">
+            <img src="${IMG_URL + m.backdrop_path}" class="w-full h-full object-cover rounded-2xl border-2 border-orange-600">
+            <div class="absolute bottom-10 left-10 text-left bg-black/60 p-6 rounded-xl backdrop-blur-md border-l-4 border-orange-600">
+                <span class="bg-orange-600 text-xs font-bold px-2 py-1 rounded">SUPER HIT</span>
+                <h2 class="text-4xl font-black mt-2">${m.title}</h2>
+                <p class="text-gray-300 text-sm max-w-md hidden md:block mt-2 italic">${m.overview.slice(0,100)}...</p>
+            </div>
+        </div>
+    `).join('');
+
+    setInterval(() => {
+        document.getElementById(`slide-${currentSlide}`).className = "poster-3d poster-hidden absolute inset-0";
+        currentSlide = (currentSlide + 1) % sliderMovies.length;
+        document.getElementById(`slide-${currentSlide}`).className = "poster-3d poster-active absolute inset-0";
+    }, 4000);
 }
 
 function createItem(m, w) {
-  const rating = m.vote_average ? m.vote_average.toFixed(1) : "7.0";
-  const poster = m.poster_path ? IMG_URL + m.poster_path : 'https://via.placeholder.com/500x750?text=No+Image';
-  return `<div class="${w} movie-card shadow-2xl" onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('${m.id}')"><div class="gold-review">GOLD ★ ${rating}</div><img src="${poster}" class="w-full h-auto" loading="lazy"><div class="p-2 text-[10px] md:text-xs font-black truncate bg-gray-900">${m.title || m.name}</div></div>`;
-}
-
-function loadMoreMovies() { currentPage++; fetchContent(currentPage); }
-
-// --- FIXED & TESTED LANGUAGE FILTER ---
-async function filterBy(lang, btn) {
-  const btns = document.querySelectorAll('.server-btn');
-  btns.forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  
-  const grid = document.getElementById('popularGrid');
-  grid.innerHTML = '<div class="col-span-full text-center py-20 animate-pulse text-[#ff4f00]">⚡ Syncing ' + btn.innerText + ' Movies...</div>';
-  
-  let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=${lang}&sort_by=popularity.desc&page=1`;
-  if(lang === 'movie') url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=1`;
-
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    if(data.results.length > 0) {
-      grid.innerHTML = data.results.map(m => createItem(m, 'w-full')).join('');
-      document.getElementById('sectionTitle').innerText = btn.innerText + " Movies";
-    } else {
-      grid.innerHTML = "<p class='col-span-full text-center py-10'>No movies found in this language.</p>";
-    }
-  } catch (e) { grid.innerHTML = "Error loading data."; }
-  
-  window.scrollTo({ top: 550, behavior: 'smooth' });
+  return `<div class="${w} movie-card shadow-2xl" onclick="playMovie('${m.id}')"><img src="${IMG_URL + m.poster_path}" class="w-full h-auto"><div class="p-2 text-[10px] md:text-xs font-black truncate bg-gray-900">${m.title || m.name}</div></div>`;
 }
 
 function playMovie(id) {
-  currentTmdbId = (id === 'hero') ? document.getElementById('hero').getAttribute('data-id') : id;
-  switchServer(1);
+  document.getElementById('mainIframe').src = "https://vidsrc.to/embed/movie/" + id;
   document.getElementById('playerOverlay').style.display = 'block';
   document.body.style.overflow = 'hidden';
 }
 
-function switchServer(num) {
-  const btns = document.querySelectorAll('#serverList .server-btn');
-  btns.forEach((b, i) => b.classList.toggle('active', i === num-1));
-  document.getElementById('mainIframe').src = servers[num-1] + currentTmdbId;
+function closePlayer() {
+  document.getElementById('playerOverlay').style.display = 'none';
+  document.getElementById('mainIframe').src = '';
+  document.body.style.overflow = 'auto';
 }
-
-function closePlayer() { document.getElementById('playerOverlay').style.display = 'none'; document.getElementById('mainIframe').src = ''; document.body.style.overflow = 'auto'; }
 
 fetchContent();
 </script>
