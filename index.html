@@ -1,169 +1,232 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CASHOO PAY SERVICE | ALL INDIA LOCATION</title>
-    <style>
-        :root {
-            --primary: #6a1b9a;
-            --secondary: #ff5722;
-            --dark: #121212;
-            --grad: linear-gradient(135deg, #4a148c 0%, #880e4f 50%, #d32f2f 100%);
-        }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--grad); min-height: 100vh; margin: 0; color: #333; }
-        .header { background: rgba(0,0,0,0.6); color: white; padding: 25px; text-align: center; font-weight: 800; font-size: 24px; text-transform: uppercase; border-bottom: 3px solid var(--secondary); letter-spacing: 1px; }
-        .container { background: white; margin: 20px 15px; padding: 25px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: none; animation: slideIn 0.4s; }
-        .active { display: block; }
-        @keyframes slideIn { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-        
-        .btn-3d { 
-            background: var(--secondary); color: white; border: none; width: 100%; padding: 18px; font-weight: bold; border-radius: 12px; font-size: 18px; cursor: pointer;
-            box-shadow: 0 6px #bf360c; transition: 0.1s; text-transform: uppercase; margin-top: 15px;
-        }
-        .btn-3d:active { box-shadow: 0 2px #bf360c; transform: translateY(4px); }
-        .btn-3d:disabled { background: #ccc; box-shadow: 0 6px #999; cursor: not-allowed; }
-        
-        label { font-weight: bold; color: var(--primary); display: block; margin-bottom: 8px; font-size: 14px; }
-        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 20px; border: 2px solid #eee; border-radius: 12px; font-size: 16px; box-sizing: border-box; }
-        .star { color: red; }
-        
-        .footer { background: var(--dark); color: #888; padding: 40px 20px; text-align: center; margin-top: 50px; border-top: 5px solid var(--secondary); }
-        .restricted { color: #ff1744; font-weight: 900; border: 2px solid #ff1744; padding: 5px 15px; display: inline-block; margin-bottom: 20px; }
-    </style>
+<meta name="google-site-verification" content="1XYvNp3KDylNaVS3TH15kSAKQHPIjMQZm_zIHLQBIt8" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZZZ-PROMOVIES - Multi-Server OTT</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script async="async" data-cfasync="false" src="https://pl28735283.effectivegatecpm.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
+<style>
+:root { --watcho-orange: #ff4f00; --bg-dark: #07080a; }
+body { background-color: var(--bg-dark); color: white; font-family: 'Inter', sans-serif; scroll-behavior: smooth; margin: 0; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.movie-card { transition: all 0.3s ease; flex-shrink: 0; cursor: pointer; border-radius: 8px; overflow: hidden; position: relative; }
+.movie-card:hover { transform: translateY(-10px) scale(1.05); border: 2px solid var(--watcho-orange); }
+.hero-gradient { background: linear-gradient(to top, var(--bg-dark) 10%, transparent 100%); }
+#playerOverlay { display: none; position: fixed; inset: 0; background: black; z-index: 9999; }
+.server-btn { background: #222; padding: 8px 15px; border-radius: 5px; font-size: 12px; transition: 0.3s; }
+.server-btn:hover, .server-btn.active { background: var(--watcho-orange); }
+.gold-review { position: absolute; top: 5px; right: 5px; background: linear-gradient(45deg, #ffd700, #ff8c00); color: black; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 900; box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+
+/* --- AD SIZE FIX (महत्वपूर्ण सुधार) --- */
+.top-ad-container { 
+    max-width: 728px; /* Standard Banner Width */
+    max-height: 90px; /* Standard Banner Height */
+    margin: 10px auto; 
+    overflow: hidden; 
+    display: flex; 
+    justify-content: center; 
+}
+
+@media (max-width: 768px) {
+    .top-ad-container { 
+        max-width: 100%; 
+        max-height: 250px; /* Mobile Square/Banner Height */
+    }
+    nav { padding: 10px 15px !important; flex-wrap: wrap; height: auto !important; }
+    nav h1 { text-align: center; width: 100%; margin-bottom: 10px; font-size: 1.5rem !important; }
+    nav .flex.items-center.space-x-4 { width: 100%; justify-content: space-between; }
+    #search { width: 100% !important; margin-top: 10px; }
+    .fixed.top-\[72px\] { top: 130px !important; padding: 10px !important; }
+    #hero { h-height: 60vh !important; margin-top: 150px !important; }
+    #hero h2 { font-size: 2.5rem !important; }
+    .px-10 { padding-left: 15px !important; padding-right: 15px !important; }
+    #popularGrid { grid-template-cols: 3 !important; gap: 10px !important; }
+    #sectionTitle { font-size: 1.2rem !important; }
+    #playerOverlay .pt-16 { padding-top: 100px !important; }
+}
+
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
+.modal-content { background: #111; border: 1px solid #333; padding: 30px; border-radius: 12px; max-width: 600px; width: 100%; position: relative; }
+</style>
 </head>
 <body>
+<nav class="fixed top-0 w-full z- flex items-center justify-between px-8 py-4 bg-black/60 backdrop-blur-md">
+<div class="flex items-center space-x-10">
+<h1 class="text-3xl font-black text-[#ff4f00]">ZZZ-PROMOVIES</h1>
+<div class="hidden md:flex space-x-6 text-sm font-bold uppercase tracking-tighter">
+<a href="#" class="text-[#ff4f00]">Home</a>
+<a href="#" class="hover:text-[#ff4f00]">Movies</a>
+<a href="#" class="hover:text-[#ff4f00]">Originals</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<div class="hidden sm:block text-right">
+<div class="text-[10px] text-gray-400 uppercase font-bold">Live Watching</div>
+<div class="text-[#ff4f00] font-black text-sm animate-pulse" id="liveCounter">45,230</div>
+</div>
+<input type="text" id="search" placeholder="Search movies, actors, series..." class="bg-gray-900 border border-gray-700 rounded-full px-5 py-2 text-sm w-72 outline-none focus:border-[#ff4f00]">
+</div>
+</nav>
 
-    <div class="header">CASHOO PAY SERVICE</div>
+<div class="fixed top-[72px] w-full z- bg-black/80 flex space-x-3 px-10 py-3 overflow-x-auto no-scrollbar border-b border-gray-800">
+<button onclick="filterBy('hi')" class="server-btn active whitespace-nowrap">Hindi</button>
+<button onclick="filterBy('en')" class="server-btn whitespace-nowrap">English</button>
+<button onclick="filterBy('pa')" class="server-btn whitespace-nowrap">Punjabi</button>
+<button onclick="filterBy('te')" class="server-btn whitespace-nowrap">South</button>
+<button onclick="filterBy('hi')" class="server-btn whitespace-nowrap">Hindi Dubbed</button>
+<button onclick="filterBy('movie')" class="server-btn whitespace-nowrap">Mix Language</button>
+<button onclick="showModal('about')" class="server-btn whitespace-nowrap border border-gray-600">About Us</button>
+<button onclick="showModal('contact')" class="server-btn whitespace-nowrap border border-gray-600">Contact Us</button>
+</div>
 
-    <div class="container active" id="step1">
-        <label>1. Select Category <span class="star">*</span></label>
-        <select id="cat">
-            <option>Male Escort</option>
-            <option>Call Girl</option>
-            <option>Massage Girl</option>
-            <option>Massage Boy</option>
-        </select>
+<div id="hero" class="relative h-[90vh] w-full bg-cover bg-top flex items-center mt-10">
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="relative px-12 z-10 space-y-5 max-w-3xl">
+<span class="bg-[#ff4f00] px-3 py-1 rounded text-xs font-bold">DIGITAL PREMIER</span>
+<h2 id="heroTitle" class="text-6xl font-black leading-none">Loading...</h2>
+<p id="heroDesc" class="text-gray-400 text-lg line-clamp-3 italic"></p>
+<button onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('hero')" class="bg-[#ff4f00] text-white px-12 py-4 rounded-md font-bold text-xl hover:scale-105 transition shadow-2xl">WATCH NOW</button>
+</div>
+</div>
 
-        <label>2. Select Major City/District <span class="star">*</span></label>
-        <select id="city">
-            <option value="">-- Select Your District --</option>
-            <optgroup label="UP / North">
-                <option>Mathura</option><option>Agra</option><option>Lucknow</option><option>Delhi/NCR</option><option>Noida</option><option>Ghaziabad</option><option>Kanpur</option><option>Varanasi</option><option>Meerut</option>
-            </optgroup>
-            <optgroup label="Maharashtra / West">
-                <option>Mumbai</option><option>Pune</option><option>Nagpur</option><option>Thane</option><option>Nashik</option><option>Ahmedabad</option><option>Surat</option>
-            </optgroup>
-            <optgroup label="South India">
-                <option>Bangalore</option><option>Hyderabad</option><option>Chennai</option><option>Kochi</option><option>Mysore</option><option>Vizag</option>
-            </optgroup>
-            <optgroup label="East / Central">
-                <option>Kolkata</option><option>Patna</option><option>Ranchi</option><option>Bhopal</option><option>Indore</option><option>Jaipur</option><option>Guwahati</option>
-            </optgroup>
-        </select>
+<div class="px-10 -mt-20 relative z-20 pb-20 space-y-10">
+<div class="top-ad-container">
+    <div id="container-745c1ef3a6af871203febf2e53f94208"></div>
+    <script async="async" data-cfasync="false" src="https://www.highperformanceformat.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
+</div>
 
-        <label>3. Specify Area / Village / Landmark <span class="star">*</span></label>
-        <input type="text" id="area" placeholder="Write Village name or Area (e.g. Vrindavan, Sector 62)">
+<section>
+<h3 class="text-2xl font-bold mb-4 flex items-center" id="sectionTitle"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Trending Highlights</h3>
+<div id="trendingSlider" class="flex space-x-5 overflow-x-auto no-scrollbar py-4"></div>
+</section>
 
-        <button class="btn-3d" onclick="checkStep1()">NEXT STEP</button>
+<section>
+<h3 class="text-2xl font-bold mb-4 flex items-center"><span class="h-6 w-1 bg-[#ff4f00] mr-3"></span>Popular Digital Hits</h3>
+<div id="popularGrid" class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-6"></div>
+<div class="flex justify-center mt-12">
+<button id="loadMore" onclick="window.open('https://omg10.com/4/10645051', '_blank'); loadMoreMovies()" class="bg-gray-800 hover:bg-[#ff4f00] text-white px-10 py-3 rounded-full font-bold transition border border-gray-700">LOAD MORE MOVIES</button>
+</div>
+</section>
+</div>
+
+<div id="customModal" class="modal-overlay" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button onclick="closeModal()" class="absolute top-4 right-4 text-2xl text-gray-500 hover:text-white">&times;</button>
+        <div id="modalBody"></div>
     </div>
+</div>
 
-    <div class="container" id="step2">
-        <label>Ad Title <span class="star">*</span></label>
-        <input type="text" id="title" placeholder="Eye-catching title">
-        <label>Description <span class="star">*</span></label>
-        <textarea id="desc" rows="4" placeholder="Full details..."></textarea>
-        
-        <div style="border:2px dashed var(--primary); padding:20px; text-align:center; border-radius:15px; background:#f9f0ff;" onclick="document.getElementById('f-in').click()">
-            <span id="st">📸 Upload Photo (Village/Area verified)</span>
-            <input type="file" id="f-in" style="display:none" onchange="up(this)">
-        </div><br>
-        
-        <button class="btn-3d" id="btn2" onclick="go(3)" disabled>NEXT: CONTACT</button>
-        <button class="btn-3d" style="background:#555; box-shadow:0 6px #333;" onclick="go(1)">BACK</button>
-    </div>
+<div id="playerOverlay">
+<div class="absolute top-0 left-0 w-full p-5 flex flex-wrap justify-between items-center bg-black/80 z-">
+<div id="serverList" class="flex space-x-3 overflow-x-auto no-scrollbar">
+<span class="text-sm font-bold self-center mr-2">SERVERS:</span>
+<button class="server-btn active" onclick="switchServer(1)">1</button>
+<button class="server-btn" onclick="switchServer(2)">2</button>
+<button class="server-btn" onclick="switchServer(3)">3</button>
+<button class="server-btn" onclick="switchServer(4)">4</button>
+<button class="server-btn" onclick="switchServer(5)">5</button>
+<button class="server-btn" onclick="switchServer(6)">6</button>
+</div>
+<button onclick="closePlayer()" class="text-white text-xl font-bold hover:text-red-500 transition">&times; CLOSE</button>
+</div>
+<iframe id="mainIframe" src="" class="w-full h-full pt-16" frameborder="0" allowfullscreen></iframe>
+</div>
 
-    <div class="container" id="step3">
-        <label>Phone Number <span class="star">*</span></label>
-        <input type="text" id="ph" placeholder="+91 00000-00000">
-        <div style="font-size:13px; background:#eee; padding:15px; border-radius:10px;">
-            <input type="checkbox" id="p1"> I agree to <b>CASHOO PAY</b> Village/City Terms <span class="star">*</span><br><br>
-            <input type="checkbox" id="p2"> Verified Data processing authorization <span class="star">*</span>
-        </div><br>
-        <button class="btn-3d" id="btn3" onclick="go(4)" disabled>PREVIEW AD</button>
-        <button class="btn-3d" style="background:#555; box-shadow:0 6px #333;" onclick="go(2)">BACK</button>
-    </div>
+<script>
+const API_KEY = '174d0214bf933dd59b3d5ec68a0c967f';
+const IMG_URL = 'https://image.tmdb.org/t/p/original';
+let currentTmdbId = '';
+let currentPage = 1;
+const servers = [
+  "https://vidsrc.to/embed/movie/",
+  "https://vidsrc.me/embed/movie?tmdb=",
+  "https://embed.su/embed/movie/",
+  "https://multiembed.mov/?video_id=",
+  "https://autoembed.to/movie/tmdb/",
+  "https://player.smashy.stream/movie/"
+];
 
-    <div class="container" id="step4">
-        <h2 style="text-align:center;">LIVE PREVIEW</h2>
-        <div style="border:1px solid #ddd; border-radius:15px; overflow:hidden; background:#fff;">
-            <img id="p-img" style="width:100%;">
-            <div style="padding:15px;">
-                <h3 id="p-title" style="margin:0;"></h3>
-                <p id="p-loc" style="color:var(--secondary); font-weight:bold;"></p>
-                <p id="p-desc" style="color:#666;"></p>
-            </div>
-        </div><br>
-        <button class="btn-3d" style="background:#2ecc71; box-shadow:0 6px #27ae60;" onclick="pub()">🚀 PUBLISH IN AREA</button>
-        <button class="btn-3d" style="background:#555; box-shadow:0 6px #333;" onclick="go(3)">EDIT</button>
-    </div>
+setInterval(() => {
+  const val = Math.floor(Math.random() * (80000 - 20000 + 1)) + 20000;
+  document.getElementById('liveCounter').innerText = val.toLocaleString();
+}, 3000);
 
-    <div class="footer">
-        <div class="restricted">18+ RESTRICTED</div>
-        <p>CASHOO PAY SERVICE - All India Network</p>
-        <p style="font-size:10px;">SOFYAN LIMITED, Cyprus | Village & City Ad Portal</p>
-    </div>
+function showModal(type) {
+    const body = document.getElementById('modalBody');
+    if(type === 'about') {
+        body.innerHTML = `<h2 class="text-2xl font-bold text-[#ff4f00] mb-4">About Us</h2><p class="text-gray-300 text-sm">ZZZ-PROMOVIES does not host files...</p>`;
+    } else {
+        body.innerHTML = `<h2 class="text-2xl font-bold text-[#ff4f00] mb-4">Contact Us</h2><a href="mailto:HELP.WOWMOVIES@GMAIL.COM" class="text-white underline">HELP.WOWMOVIES@GMAIL.COM</a>`;
+    }
+    document.getElementById('customModal').style.display = 'flex';
+}
+function closeModal() { document.getElementById('customModal').style.display = 'none'; }
 
-    <script>
-        const SURL = 'https://script.google.com/macros/s/AKfycbwDLNhMit5MXHi6dWLS82_avlS4UWBGGeO3QzhGcEVNwF-t0WM0LTona4G6Xt8gjiZnSw/exec';
-        const KEYS = ['66b93bbc5730f7a268d8893172a33427', '7f4aef5f09b96121682b41d0502f8746', '902f6f663016116846a9edf1108e504d'];
-        let img = "";
+async function fetchContent(page = 1) {
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}&page=${page}`);
+    const data = await res.json();
+    const items = data.results;
+    if(page === 1) {
+      document.getElementById('hero').style.backgroundImage = `url('${IMG_URL + items.backdrop_path}')`;
+      document.getElementById('heroTitle').innerText = items.title;
+      document.getElementById('heroDesc').innerText = items.overview;
+      document.getElementById('hero').setAttribute('data-id', items.id);
+      document.getElementById('trendingSlider').innerHTML = items.map(m => createItem(m, 'w-[150px] md:w-[210px]')).join('');
+    }
+    const popular = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`);
+    const popData = await popular.json();
+    document.getElementById('popularGrid').innerHTML += popData.results.map(m => createItem(m, 'w-full')).join('');
+  } catch (e) { console.error("Sync Error"); }
+}
 
-        function checkStep1() {
-            if(!document.getElementById('city').value || !document.getElementById('area').value) {
-                alert("Please select District and enter Area/Village!"); return;
-            }
-            go(2);
-        }
+function createItem(m, w) {
+  const rating = m.vote_average ? m.vote_average.toFixed(1) : "7.0";
+  const poster = m.poster_path ? IMG_URL + m.poster_path : 'https://via.placeholder.com/500x750?text=No+Image';
+  return `<div class="${w} movie-card shadow-2xl" onclick="window.open('https://omg10.com/4/10649566', '_blank'); playMovie('${m.id}')"><div class="gold-review">GOLD ★ ${rating}</div><img src="${poster}" class="w-full h-auto"><div class="p-2 text-[10px] md:text-xs font-black truncate bg-gray-900">${m.title}</div></div>`;
+}
 
-        function go(s) {
-            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
-            document.getElementById('step' + s).classList.add('active');
-            if(s === 4) {
-                document.getElementById('p-img').src = img;
-                document.getElementById('p-title').innerText = document.getElementById('title').value;
-                document.getElementById('p-loc').innerText = "📍 " + document.getElementById('city').value + " > " + document.getElementById('area').value;
-                document.getElementById('p-desc').innerText = document.getElementById('desc').value;
-            }
-            window.scrollTo(0,0);
-        }
+function loadMoreMovies() { currentPage++; fetchContent(currentPage); }
 
-        async function up(input) {
-            const f = input.files; const s = document.getElementById('st');
-            if(!f) return; s.innerText = "⏳ Uploading to Area Server...";
-            for(let k of KEYS) {
-                let fd = new FormData(); fd.append('image', f);
-                try {
-                    let r = await fetch(`https://api.imgbb.com/1/upload?key=${k}`, {method:'POST', body:fd});
-                    let j = await r.json();
-                    if(j.success) { img = j.data.url; s.innerText = "✅ Uploaded!"; document.getElementById('btn2').disabled = false; return; }
-                } catch(e) {}
-            }
-            s.innerText = "❌ Fail! Use another photo.";
-        }
+async function filterBy(lang) {
+  document.getElementById('popularGrid').innerHTML = '';
+  const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=${lang}`);
+  const data = await res.json();
+  document.getElementById('popularGrid').innerHTML = data.results.map(m => createItem(m, 'w-full')).join('');
+  window.scrollTo({ top: 600, behavior: 'smooth' });
+}
 
-        setInterval(() => {
-            const ok = document.getElementById('ph').value && document.getElementById('p1').checked && document.getElementById('p2').checked;
-            document.getElementById('btn3').disabled = !ok;
-        }, 500);
+function playMovie(id) {
+  currentTmdbId = (id === 'hero') ? document.getElementById('hero').getAttribute('data-id') : id;
+  switchServer(1);
+  document.getElementById('playerOverlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
 
-        async function pub() {
-            alert("Submitting to CASHOO PAY Database...");
-            const d = { name: document.getElementById('title').value, city: document.getElementById('city').value, area: document.getElementById('area').value, phone: document.getElementById('ph').value, photoUrl: img, category: document.getElementById('cat').value, desc: document.getElementById('desc').value };
-            await fetch(SURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
-            alert("Success! Your Ad is live in " + d.area);
-            location.reload();
-        }
-    </script>
+function switchServer(num) {
+  const btns = document.querySelectorAll('.server-btn');
+  btns.forEach((b, i) => { if(i < 6) b.classList.toggle('active', i === num-1); });
+  document.getElementById('mainIframe').src = servers[num-1] + currentTmdbId;
+}
+
+function closePlayer() { document.getElementById('playerOverlay').style.display = 'none'; document.getElementById('mainIframe').src = ''; document.body.style.overflow = 'auto'; }
+
+document.getElementById('search').addEventListener('keypress', async function (e) {
+  if (e.key === 'Enter') {
+    let query = this.value;
+    if(query.length > 2) {
+      document.getElementById('sectionTitle').innerText = "Search Results: " + query;
+      const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${query}`);
+      const data = await res.json();
+      document.getElementById('popularGrid').innerHTML = data.results.filter(item => item.media_type !== 'person').map(m => createItem(m, 'w-full')).join('');
+      window.scrollTo({ top: 600, behavior: 'smooth' });
+    }
+  }
+});
+
+fetchContent();
+</script>
 </body>
 </html>
