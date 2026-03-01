@@ -3,66 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP GIRLS IN MATHURA | CASHOO</title>
+    <title>CASHOO - SKOKKA ULTIMATE</title>
     <style>
-        /* Modern Pro Design - Purple Theme */
-        body { font-family: 'Roboto', Arial, sans-serif; background-color: #f1f1f1; color: #333; margin: 0; padding: 0; text-align: center; }
+        :root {
+            --primary: #6a1b9a;
+            --secondary: #ff5722;
+            --footer-bg: #1a1a1a;
+            --bg-gradient: linear-gradient(135deg, #4a148c 0%, #ad1457 50%, #f44336 100%);
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg-gradient); min-height: 100vh; margin: 0; color: #333; }
         
-        /* Fixed Top Header (Purple) */
-        .header { background-color: #6a1b9a; padding: 15px; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
-        .header h1 { font-size: 18px; margin: 0; color: white; font-weight: bold; text-transform: uppercase; }
-        .menu-icon { font-size: 24px; color: white; cursor: pointer; }
+        .header { background: rgba(0,0,0,0.3); color: white; padding: 20px; text-align: center; font-weight: bold; font-size: 24px; letter-spacing: 1px; }
 
-        /* Main Content Container */
-        .container { max-width: 480px; margin: 55px auto 0 auto; background: white; min-height: 100vh; position: relative; padding-bottom: 30px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .container { background: white; margin: 20px 15px; padding: 25px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.4); display: none; animation: slideIn 0.4s ease; }
+        .active { display: block; }
+        @keyframes slideIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 
-        /* Full-Width Image Section */
-        .image-section { width: 100%; position: relative; }
-        .image-section img { width: 100%; display: block; height: auto; border-bottom: 4px solid #6a1b9a; }
+        /* 3D SKOKKA BUTTONS */
+        .btn-3d { 
+            background: var(--secondary); color: white; border: none; width: 100%; padding: 18px; font-weight: bold; border-radius: 8px; font-size: 18px; cursor: pointer;
+            box-shadow: 0 6px #bf360c; transition: 0.1s; position: relative; text-transform: uppercase; margin-top: 10px;
+        }
+        .btn-3d:active { box-shadow: 0 2px #bf360c; transform: translateY(4px); }
+        .btn-3d:disabled { background: #ccc; box-shadow: 0 6px #999; cursor: not-allowed; }
+        .btn-back { background: #555; box-shadow: 0 6px #333; margin-top: 15px; }
 
-        /* Verified Badge (Green) */
-        .verified-badge { background-color: #2ecc71; color: white; padding: 5px 12px; border-radius: 3px; font-weight: bold; font-size: 14px; position: absolute; bottom: 15px; right: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        input, select, textarea { width: 100%; padding: 14px; margin-bottom: 20px; border: 2px solid #eee; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .star { color: red; font-weight: bold; }
 
-        /* Action Buttons Area */
-        .action-area { padding: 20px; background: #fff; }
-
-        /* CALL NOW Button (Dark Maroon/Red) */
-        .btn-call { background: #800000; color: white !important; display: flex; align-items: center; justify-content: center; padding: 16px; text-decoration: none; font-weight: bold; font-size: 18px; border-radius: 5px; margin-bottom: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); border: none; width: 100%; box-sizing: border-box; }
-
-        /* TELEGRAM Button (Telegram Blue) */
-        .btn-telegram { background: #0088cc; color: white !important; display: flex; align-items: center; justify-content: center; padding: 16px; text-decoration: none; font-weight: bold; font-size: 18px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); border: none; width: 100%; box-sizing: border-box; }
-
-        /* Icons */
-        .icon { font-size: 22px; margin-right: 12px; }
-
-        /* Hover/Active Effects */
-        .btn-call:active, .btn-telegram:active { transform: translateY(2px); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        /* FOOTER STYLE */
+        .footer { background: var(--footer-bg); color: #999; padding: 40px 20px; font-size: 14px; margin-top: 50px; text-align: center; }
+        .footer-cols { display: flex; flex-wrap: wrap; justify-content: space-around; text-align: left; max-width: 1200px; margin: 0 auto; }
+        .footer-col { flex: 1; min-width: 200px; margin-bottom: 25px; padding: 10px; }
+        .footer-col h4 { color: white; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .footer-col a { display: block; color: #777; text-decoration: none; margin-bottom: 8px; }
+        .social-box { margin: 20px 0; display: flex; gap: 10px; justify-content: center; }
+        .s-btn { padding: 10px 20px; border-radius: 5px; color: white; text-decoration: none; font-weight: bold; }
+        
+        .country-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 20px; border-top: 1px solid #333; font-size: 12px; }
+        .preview-card { border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    
-    <div class="header">
-        <h1>Busty Girls Mathura</h1>
-        <div class="menu-icon">☰</div>
+    <div class="header">CASHOO - POST FREE AD</div>
+
+    <div class="container active" id="step1">
+        <h2 style="color:var(--primary)">1. INFORMATION</h2>
+        <label>Select Category <span class="star">*</span></label>
+        <select id="cat"><option>Escorts</option><option>Massages</option></select>
+        <label>Select City <span class="star">*</span></label>
+        <input type="text" id="city" placeholder="e.g. Mathura">
+        <label>Area / Dist / City <span class="star">*</span></label>
+        <input type="text" id="dist" placeholder="Specify Location">
+        <button class="btn-3d" onclick="go(2)">NEXT STEP</button>
     </div>
 
-    <div class="image-section">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh85M3CIsGjS-z-u..." alt="VIP Service">
-        <div class="verified-badge">VERIFIED</div>
+    <div class="container" id="step2">
+        <h2 style="color:var(--primary)">2. YOUR DATA</h2>
+        <label>Title <span class="star">*</span></label>
+        <input type="text" id="title" placeholder="Catchy Headline">
+        <label>Text Description <span class="star">*</span></label>
+        <textarea id="text" rows="4" placeholder="About yourself..."></textarea>
+        <label>Photo <span class="star">*</span></label>
+        <div style="border:2px dashed #ccc; padding:20px; text-align:center; cursor:pointer;" onclick="document.getElementById('f-in').click()">
+            <span id="st">📸 Click to Add Real Photo</span>
+            <input type="file" id="f-in" style="display:none" accept="image/*" onchange="up(this)">
+        </div><br>
+        <button class="btn-3d" id="btn2" onclick="go(3)" disabled>NEXT: CONTACT</button>
+        <button class="btn-3d btn-back" onclick="go(1)">BACK</button>
     </div>
 
-    <div class="action-area">
-        <a href="tel:+91XXXXXXXXXX" class="btn-call">
-            <span class="icon">📞</span> CALL NOW
-        </a>
-        <a href="https://t.me/CASH_OO" class="btn-telegram">
-            <span class="icon">✈️</span> CHAT ON TELEGRAM
-        </a>
+    <div class="container" id="step3">
+        <h2 style="color:var(--primary)">3. CONTACT US</h2>
+        <label>Phone Number <span class="star">*</span></label>
+        <input type="text" id="ph" placeholder="+91 0000000000">
+        <label>Email (Hidden)</label>
+        <input type="email" id="em" placeholder="your@email.com">
+        <div style="font-size: 13px; color: #555;">
+            <input type="checkbox" id="p1"> I agree to <b>Terms & Conditions</b> <span class="star">*</span><br><br>
+            <input type="checkbox" id="p2"> I authorize <b>Special Data</b> processing <span class="star">*</span>
+        </div><br>
+        <button class="btn-3d" id="btn3" onclick="go(4)" disabled>GO ON (PREVIEW)</button>
+        <button class="btn-3d btn-back" onclick="go(2)">BACK</button>
     </div>
 
-</div>
+    <div class="container" id="step4">
+        <h2 style="color:var(--primary)">4. FINAL PREVIEW</h2>
+        <div class="preview-card">
+            <img id="p-img" style="width:100%;">
+            <div style="padding:15px;">
+                <h3 id="p-title" style="margin:0;"></h3>
+                <p id="p-loc" style="color:#d32f2f; font-weight:bold;"></p>
+                <p id="p-desc" style="color:#555;"></p>
+            </div>
+        </div><br>
+        <button class="btn-3d" style="background:#2ecc71; box-shadow: 0 6px #27ae60;" onclick="pub()">🚀 PUBLISH AD FREE</button>
+        <button class="btn-3d btn-back" onclick="go(3)">EDIT DETAILS</button>
+    </div>
 
+    <div class="footer">
+        <p>Contact us from Monday to Friday from 2pm to 8pm.</p>
+        <div class="social-box">
+            <a href="#" class="s-btn" style="background:#25d366;">WhatsApp</a>
+            <a href="#" class="s-btn" style="background:#0088cc;">Telegram</a>
+        </div>
+        <h3 style="color:red;">RESTRICTED TO ADULTS</h3>
+        <p style="max-width:700px; margin:auto;">Skokka is the largest advertising platform worldwide. Available in 29 countries.</p>
+        <div class="footer-cols">
+            <div class="footer-col"><h4>Legal</h4><a href="#">Terms</a><a href="#">Privacy</a></div>
+            <div class="footer-col"><h4>Support</h4><a href="#">Contact Us</a><a href="#">Security</a></div>
+            <div class="footer-col"><h4>Company</h4><a href="#">Skokka Network</a><a href="#">Boost Ads</a></div>
+        </div>
+        <div class="country-list">
+            <span>🇦🇷 Argentina</span> <span>🇦🇺 Australia</span> <span>🇧🇷 Brazil</span> <span>🇮🇳 India</span> <span>🇮🇹 Italy</span> <span>🇪🇸 Spain</span>
+        </div>
+        <p style="font-size:11px; margin-top:30px;">SOFYAN LIMITED - Amathus Avenue, 4532 Agios Tychonas, Limassol, Cyprus</p>
+    </div>
+
+    <script>
+        const SURL = 'https://script.google.com/macros/s/AKfycbwDLNhMit5MXHi6dWLS82_avlS4UWBGGeO3QzhGcEVNwF-t0WM0LTona4G6Xt8gjiZnSw/exec';
+        const KEYS = ['66b93bbc5730f7a268d8893172a33427', '7f4aef5f09b96121682b41d0502f8746', '902f6f663016116846a9edf1108e504d'];
+        let img = "";
+
+        function go(s) {
+            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+            document.getElementById('step' + s).classList.add('active');
+            if(s === 4) {
+                document.getElementById('p-img').src = img;
+                document.getElementById('p-title').innerText = document.getElementById('title').value;
+                document.getElementById('p-loc').innerText = "📍 " + document.getElementById('city').value;
+                document.getElementById('p-desc').innerText = document.getElementById('text').value;
+            }
+            window.scrollTo(0,0);
+        }
+
+        async function up(input) {
+            const f = input.files; const s = document.getElementById('st');
+            if(!f) return; s.innerText = "⏳ Uploading Photo...";
+            for(let k of KEYS) {
+                let fd = new FormData(); fd.append('image', f);
+                try {
+                    let r = await fetch(`https://api.imgbb.com/1/upload?key=${k}`, {method:'POST', body:fd});
+                    let j = await r.json();
+                    if(j.success) { img = j.data.url; s.innerText = "✅ Done!"; document.getElementById('btn2').disabled = false; return; }
+                } catch(e) {}
+            }
+            s.innerText = "❌ Failed!";
+        }
+
+        setInterval(() => {
+            const ok3 = document.getElementById('ph').value && document.getElementById('p1').checked && document.getElementById('p2').checked;
+            document.getElementById('btn3').disabled = !ok3;
+        }, 500);
+
+        async function pub() {
+            const b = event.target; b.innerText = "⏳ PUBLISHING..."; b.disabled = true;
+            const d = { name: document.getElementById('title').value, city: document.getElementById('city').value, phone: document.getElementById('ph').value, photoUrl: img, category: document.getElementById('cat').value, desc: document.getElementById('text').value };
+            await fetch(SURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
+            alert("मज़ा आ गया! आपकी एड लाइव हो गयी है।");
+            location.reload();
+        }
+    </script>
 </body>
 </html>
