@@ -11,39 +11,34 @@
 :root { --watcho-orange: #ff4f00; --bg-dark: #07080a; }
 body { background-color: var(--bg-dark); color: white; font-family: 'Inter', sans-serif; scroll-behavior: smooth; margin: 0; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
-
-/* 3D Poster Animation */
 .poster-3d { transition: all 0.8s ease-in-out; position: absolute; inset: 0; opacity: 0; transform: scale(0.9) translateZ(-50px); }
 .poster-active { opacity: 1; transform: scale(1) translateZ(0); z-index: 10; }
-
 .movie-card { transition: all 0.3s ease; flex-shrink: 0; cursor: pointer; border-radius: 8px; overflow: hidden; position: relative; }
 .movie-card:hover { transform: translateY(-10px) scale(1.05); border: 2px solid var(--watcho-orange); }
 #playerOverlay { display: none; position: fixed; inset: 0; background: black; z-index: 9999; }
 .server-btn { background: #222; padding: 8px 15px; border-radius: 5px; font-size: 12px; transition: 0.3s; }
 .server-btn:hover, .server-btn.active { background: var(--watcho-orange); }
 .gold-review { position: absolute; top: 5px; right: 5px; background: linear-gradient(45deg, #ffd700, #ff8c00); color: black; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 900; }
-
-/* Ads Fix: Invisible but earning enabled */
 .smart-ad-box { width: 1px; height: 1px; opacity: 0.01; position: absolute; top: -50px; left: -50px; overflow: hidden; }
 
 @media (max-width: 768px) {
     nav h1 { font-size: 1.5rem !important; text-align: center; width: 100%; }
     #search { width: 100% !important; margin-top: 10px; }
-    .fixed.top-\[72px\] { top: 130px !important; }
-    #hero-slider { margin-top: 150px !important; height: 400px !important; }
+    .fixed.top-\[72px\] { top: 125px !important; } 
+    #hero-slider { margin-top: 160px !important; height: 400px !important; }
 }
 </style>
 </head>
-<body>
+<body onclick="handleFirstTouch()">
 
-<div class="smart-ad-box">
+<div class="smart-ad-box" id="adContainer">
     <div id="container-745c1ef3a6af871203febf2e53f94208"></div>
     <script async="async" data-cfasync="false" src="https://www.highperformanceformat.com/745c1ef3a6af871203febf2e53f94208/invoke.js"></script>
 </div>
 
 <nav class="fixed top-0 w-full z- flex items-center justify-between px-8 py-4 bg-black/60 backdrop-blur-md">
     <h1 class="text-3xl font-black text-[#ff4f00]">ZZZ-PROMOVIES</h1>
-    <input type="text" id="search" onkeypress="handleSearch(event)" placeholder="Type movie name & press Enter..." class="bg-gray-900 border border-gray-700 rounded-full px-5 py-2 text-sm w-72 outline-none focus:border-[#ff4f00]">
+    <input type="text" id="search" onkeypress="handleSearch(event)" placeholder="Search global movies..." class="bg-gray-900 border border-gray-700 rounded-full px-5 py-2 text-sm w-72 outline-none focus:border-[#ff4f00]">
 </nav>
 
 <div class="fixed top-[72px] w-full z- bg-black/80 flex space-x-3 px-10 py-3 overflow-x-auto no-scrollbar border-b border-gray-800">
@@ -87,13 +82,27 @@ const IMG_URL = 'https://image.tmdb.org/t/p/original';
 let currentPage = 1;
 let currentLang = 'movie'; 
 let currentSlide = 0;
+let hasTouched = false;
+
+function handleFirstTouch() {
+    if(!hasTouched) {
+        syncAds(); 
+        hasTouched = true;
+    }
+}
+
+setInterval(() => { syncAds(); }, 900000);
+
+function syncAds() {
+    const container = document.getElementById('adContainer');
+    if(container) container.innerHTML = container.innerHTML;
+}
 
 async function initSite() {
     const res = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&page=1`);
     const data = await res.json();
     const sliderMovies = data.results.slice(0, 5);
     const sliderCont = document.getElementById('slider-content');
-    
     sliderCont.innerHTML = sliderMovies.map((m, i) => `
         <div class="poster-3d ${i === 0 ? 'poster-active' : ''}" id="slide-${i}" onclick="playMovie('${m.id}')">
             <img src="${IMG_URL + m.backdrop_path}" class="w-full h-full object-cover rounded-2xl border border-gray-800 shadow-2xl">
@@ -114,46 +123,27 @@ async function initSite() {
     const trendRes = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`);
     const trendData = await trendRes.json();
     document.getElementById('trendingSlider').innerHTML = trendData.results.map(m => createItem(m, 'w-[160px] md:w-[220px]')).join('');
-
     loadMoreMovies(); 
 }
 
 function createItem(m, w) {
     const poster = m.poster_path ? IMG_URL + m.poster_path : 'https://via.placeholder.com/500x750?text=No+Poster';
-    const rate = m.vote_average ? m.vote_average.toFixed(1) : "7.0";
     return `<div class="${w} movie-card shadow-2xl" onclick="playMovie('${m.id}')">
-        <div class="gold-review">GOLD ★ ${rate}</div>
+        <div class="gold-review">GOLD ★ ${m.vote_average.toFixed(1)}</div>
         <img src="${poster}" class="w-full h-auto" loading="lazy">
         <div class="p-2 text-[10px] md:text-xs font-black truncate bg-gray-900">${m.title || m.name}</div>
     </div>`;
 }
 
-// World Wide Search Fix
 async function handleSearch(e) {
     if (e.key === 'Enter') {
         const query = document.getElementById('search').value;
-        if (query.trim() === '') return;
-        
+        if (!query.trim()) return;
         const grid = document.getElementById('popularGrid');
-        const sectionTitle = document.getElementById('sectionTitle');
-        const loadBtn = document.getElementById('loadBtn');
-        
-        sectionTitle.innerText = "Search Results: " + query;
-        grid.innerHTML = '<div class="col-span-full text-center py-20 animate-pulse text-orange-500 font-bold">Searching World Database...</div>';
-        loadBtn.style.display = 'none'; // Hide load more during search
-        
-        try {
-            const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&include_adult=false`);
-            const data = await res.json();
-            
-            if (data.results.length > 0) {
-                grid.innerHTML = data.results.map(m => createItem(m, 'w-full')).join('');
-            } else {
-                grid.innerHTML = '<div class="col-span-full text-center py-20 text-gray-500">No Movies Found Globally.</div>';
-            }
-        } catch (err) {
-            grid.innerHTML = '<div class="col-span-full text-center py-20 text-red-500">Search Error. Please try again.</div>';
-        }
+        grid.innerHTML = '<div class="col-span-full text-center py-20 text-orange-500 font-bold">Searching World Database...</div>';
+        const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        grid.innerHTML = data.results.map(m => createItem(m, 'w-full')).join('');
         window.scrollTo({ top: 550, behavior: 'smooth' });
     }
 }
@@ -161,39 +151,20 @@ async function handleSearch(e) {
 async function filterBy(lang, btn) {
     document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    document.getElementById('loadBtn').style.display = 'block';
-    
     currentLang = lang;
     currentPage = 1;
     document.getElementById('popularGrid').innerHTML = '';
-    document.getElementById('sectionTitle').innerText = btn.innerText + " Popular Hits";
-    
     loadMoreMovies();
-    window.scrollTo({ top: 550, behavior: 'smooth' });
 }
 
 async function loadMoreMovies() {
-    const btn = document.getElementById('loadBtn');
-    const grid = document.getElementById('popularGrid');
-    btn.innerText = "⚡ SYNCING DATA...";
-
     let url = currentLang === 'movie' ? 
         `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${currentPage}` : 
-        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=${currentLang}&page=${currentPage}&sort_by=popularity.desc`;
-
-    try {
-        const res = await fetch(url);
-        const data = await res.json();
-        if(data.results && data.results.length > 0) {
-            grid.innerHTML += data.results.map(m => createItem(m, 'w-full')).join('');
-            currentPage++;
-            btn.innerText = "LOAD MORE MOVIES";
-        } else {
-            btn.innerText = "END OF CONTENT";
-        }
-    } catch (e) {
-        btn.innerText = "TRY AGAIN";
-    }
+        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=${currentLang}&page=${currentPage}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    document.getElementById('popularGrid').innerHTML += data.results.map(m => createItem(m, 'w-full')).join('');
+    currentPage++;
 }
 
 function playMovie(id) {
