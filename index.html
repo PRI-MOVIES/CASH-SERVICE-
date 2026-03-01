@@ -1,156 +1,61 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CASHOO PAY SERVICE | POST FREE AD</title>
-    <style>
-        :root {
-            --primary: #6a1b9a;
-            --secondary: #ff5722; /* Cashoo Orange */
-            --footer-bg: #121212;
-            --bg-gradient: linear-gradient(135deg, #4a148c 0%, #880e4f 50%, #d32f2f 100%);
+<script>
+    // इन 3 चाबियों को मैंने बदल दिया है, इन्हें ट्राई करें
+    const KEYS = [
+        '66b93bbc5730f7a268d8893172a33427', 
+        '7f4aef5f09b96121682b41d0502f8746', 
+        '902f6f663016116846a9edf1108e504d'
+    ];
+    let img = "";
+
+    async function up(input) {
+        const f = input.files; 
+        const s = document.getElementById('st');
+        
+        if(!f) return;
+        
+        // फाइल साइज़ चेक (5MB से कम होनी चाहिए)
+        if(f.size > 5242880) {
+            alert("फोटो बहुत बड़ी है! कृपया 5MB से छोटी फोटो चुनें।");
+            return;
         }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg-gradient); min-height: 100vh; margin: 0; color: #333; }
-        
-        /* Premium Header */
-        .header { background: rgba(0,0,0,0.4); color: white; padding: 22px; text-align: center; font-weight: 800; font-size: 26px; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 2px solid rgba(255,255,255,0.1); }
 
-        /* Multi-Step Containers */
-        .container { background: white; margin: 20px 15px; padding: 25px; border-radius: 16px; box-shadow: 0 15px 50px rgba(0,0,0,0.5); display: none; animation: slideUp 0.4s ease-out; }
-        .active { display: block; }
-        @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        s.innerText = "⏳ CASHOO Server पर अपलोड हो रहा है...";
+        s.style.color = "orange";
 
-        /* CASHOO 3D BUTTONS */
-        .btn-3d { 
-            background: var(--secondary); color: white; border: none; width: 100%; padding: 18px; font-weight: bold; border-radius: 10px; font-size: 18px; cursor: pointer;
-            box-shadow: 0 6px #bf360c; transition: 0.1s; position: relative; text-transform: uppercase; margin-top: 10px;
+        let uploadSuccess = false;
+
+        for(let k of KEYS) {
+            if(uploadSuccess) break;
+
+            let fd = new FormData();
+            fd.append('image', f);
+
+            try {
+                let r = await fetch(`https://api.imgbb.com/1/upload?key=${k}`, {
+                    method: 'POST',
+                    body: fd
+                });
+                
+                let j = await r.json();
+
+                if(j.success) {
+                    img = j.data.url;
+                    s.innerText = "✅ फोटो सुरक्षित अपलोड हो गई!";
+                    s.style.color = "green";
+                    document.getElementById('btn2').disabled = false;
+                    uploadSuccess = true;
+                } else {
+                    console.log("Key failed, trying next...");
+                }
+            } catch(e) {
+                console.error("Network Error:", e);
+            }
         }
-        .btn-3d:active { box-shadow: 0 2px #bf360c; transform: translateY(4px); }
-        .btn-3d:disabled { background: #bbb; box-shadow: 0 6px #999; cursor: not-allowed; }
-        .btn-back { background: #444; box-shadow: 0 6px #222; margin-top: 15px; }
 
-        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 20px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 16px; transition: 0.3s; }
-        input:focus { border-color: var(--primary); outline: none; }
-        .star { color: #ff0000; font-weight: bold; }
-
-        /* CASHOO FOOTER */
-        .footer { background: var(--footer-bg); color: #888; padding: 50px 20px; font-size: 14px; margin-top: 60px; text-align: center; border-top: 4px solid var(--secondary); }
-        .footer-cols { display: flex; flex-wrap: wrap; justify-content: space-around; text-align: left; max-width: 1200px; margin: 0 auto; }
-        .footer-col { flex: 1; min-width: 200px; margin-bottom: 30px; padding: 0 15px; }
-        .footer-col h4 { color: white; border-bottom: 1px solid #333; padding-bottom: 10px; text-transform: uppercase; font-size: 15px; }
-        .footer-col a { display: block; color: #666; text-decoration: none; margin-bottom: 10px; transition: 0.2s; }
-        .footer-col a:hover { color: var(--secondary); padding-left: 5px; }
-        
-        .social-box { margin: 25px 0; display: flex; gap: 15px; justify-content: center; }
-        .s-btn { padding: 12px 25px; border-radius: 8px; color: white; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0 4px rgba(0,0,0,0.2); }
-        
-        .country-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding: 25px; border-top: 1px solid #222; font-size: 12px; line-height: 2; }
-        .restricted { color: #d32f2f; font-weight: 900; font-size: 20px; margin: 20px 0; letter-spacing: 1px; }
-
-        .preview-card { border: 2px solid #eee; border-radius: 12px; overflow: hidden; background: #fafafa; }
-    </style>
-</head>
-<body>
-
-    <div class="header">CASHOO PAY SERVICE</div>
-
-    <div class="container active" id="step1">
-        <h2 style="color:var(--primary)">1. AD INFORMATION</h2>
-        <label>Select Category <span class="star">*</span></label>
-        <select id="cat"><option>Escorts</option><option>Massages</option><option>Male Escorts</option></select>
-        <label>Select City <span class="star">*</span></label>
-        <input type="text" id="city" placeholder="e.g. Mathura, Delhi">
-        <label>Area / Dist / City <span class="star">*</span></label>
-        <input type="text" id="dist" placeholder="Enter Local Area">
-        <button class="btn-3d" onclick="go(2)">NEXT: YOUR DATA</button>
-    </div>
-
-    <div class="container" id="step2">
-        <h2 style="color:var(--primary)">2. AD CONTENT</h2>
-        <label>Title <span class="star">*</span></label>
-        <input type="text" id="title" placeholder="Catchy Ad Headline">
-        <label>Description <span class="star">*</span></label>
-        <textarea id="text" rows="4" placeholder="Write details about your service..."></textarea>
-        <label>Photo <span class="star">*</span></label>
-        <div style="border:2px dashed var(--primary); padding:25px; text-align:center; cursor:pointer; border-radius:10px; background:#f9f0ff;" onclick="document.getElementById('f-in').click()">
-            <span id="st">📸 Click to Upload Real Photo</span>
-            <input type="file" id="f-in" style="display:none" accept="image/*" onchange="up(this)">
-        </div><br>
-        <button class="btn-3d" id="btn2" onclick="go(3)" disabled>NEXT: CONTACT</button>
-        <button class="btn-3d btn-back" onclick="go(1)">BACK</button>
-    </div>
-
-    <div class="container" id="step3">
-        <h2 style="color:var(--primary)">3. CONTACT CHANNELS</h2>
-        <label>Phone Number <span class="star">*</span></label>
-        <input type="text" id="ph" placeholder="+91 0000000000">
-        <label>Email (Private)</label>
-        <input type="email" id="em" placeholder="Your secret email">
-        <div style="background:#f4f4f4; padding:15px; border-radius:8px; font-size:13px; color:#444;">
-            <input type="checkbox" id="p1"> I have read the <b>Terms & Conditions</b> <span class="star">*</span><br><br>
-            <input type="checkbox" id="p2"> I authorize <b>CASHOO PAY</b> to process data <span class="star">*</span>
-        </div><br>
-        <button class="btn-3d" id="btn3" onclick="go(4)" disabled>GO ON (PREVIEW)</button>
-        <button class="btn-3d btn-back" onclick="go(2)">BACK</button>
-    </div>
-
-    <div class="container" id="step4">
-        <h2 style="color:var(--primary)">4. REVIEW YOUR AD</h2>
-        <div class="preview-card">
-            <img id="p-img" style="width:100%; display:block;">
-            <div style="padding:20px;">
-                <h3 id="p-title" style="margin:0; color:#333;"></h3>
-                <p id="p-loc" style="color:var(--secondary); font-weight:bold; margin:10px 0;"></p>
-                <p id="p-desc" style="color:#666; line-height:1.5;"></p>
-            </div>
-        </div><br>
-        <button class="btn-3d" style="background:#2ecc71; box-shadow: 0 6px #27ae60;" onclick="pub()">🚀 PUBLISH AD FREE</button>
-        <button class="btn-3d btn-back" onclick="go(3)">EDIT AD</button>
-    </div>
-
-    <div class="footer">
-        <p>Contact <b>CASHOO PAY Support</b> from Monday to Friday (2pm to 8pm).</p>
-        <div class="social-box">
-            <a href="#" class="s-btn" style="background:#25d366;">WhatsApp</a>
-            <a href="#" class="s-btn" style="background:#0088cc;">Telegram</a>
-        </div>
-        <div class="restricted">RESTRICTED TO ADULTS</div>
-        <p style="max-width:800px; margin:20px auto; line-height:1.6;">CASHOO PAY SERVICE is the largest advertising platform for independent escorts worldwide. Browse through thousands of new ads from professional escorts globally.</p>
-        
-        <div class="footer-cols">
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <a href="#">Terms and Conditions</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Cookie Policy</a>
-            </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="#">Contact us</a>
-                <a href="#">Help Center</a>
-                <a href="#">Security & Scams</a>
-            </div>
-            <div class="footer-col">
-                <h4>Company</h4>
-                <a href="#">CASHOO Network</a>
-                <a href="#">Boost Visibility</a>
-                <a href="#">Our Blog</a>
-            </div>
-        </div>
-
-        <div class="country-list">
-            <span>🇦🇷 Argentina</span> <span>🇦🇺 Australia</span> <span>🇧🇷 Brazil</span> <span>🇮🇳 India</span> <span>🇮🇹 Italy</span> <span>🇪🇸 Spain</span> <span>🇲🇽 Mexico</span> <span>🇬🇧 UK</span> <span>🇳🇱 Netherlands</span>
-        </div>
-        
-        <p style="font-size:11px; margin-top:40px; color:#555;">
-            CASHOO PAY SERVICE - Operated by SOFYAN LIMITED<br>
-            Amathus Avenue, 4532 Agios Tychonas, Limassol, Cyprus<br>
-            Registration Number: HE 445193
-        </p>
-    </div>
-
-    <script>
-        const SURL = 'https://script.google.com/macros/s/AKfycbwDLNhMit5MXHi6dWLS82_avlS4UWBGGeO3QzhGcEVNwF-t0WM0LTona4G6Xt8gjiZnSw/exec';
-        const KEYS = ['66b93bbc5730f7a268d8893172a33427', '7f4aef5f09b96121682b41d0502f8746', '902f6f663016116846a9edf1108e504d'];
-        let img = "";
+        if(!uploadSuccess) {
+            s.innerText = "❌ अपलोड फेल! दूसरी फोटो ट्राई करें।";
+            s.style.color = "red";
+            alert("सर्वर में समस्या है, कृपया दूसरी फोटो चुनें या बाद में ट्राई करें।");
+        }
+    }
+</script>
